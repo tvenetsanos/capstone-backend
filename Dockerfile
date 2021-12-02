@@ -1,16 +1,27 @@
-# syntax=docker/dockerfile:1
-FROM ruby:2.5
-RUN apt-get update -qq && apt-get install -y nodejs postgresql-client
-WORKDIR /myapp
-COPY Gemfile /myapp/Gemfile
-COPY Gemfile.lock /myapp/Gemfile.lock
+# Use the Ruby 2.7.1 image from Docker Hub
+# as the base image (https://hub.docker.com/_/ruby)
+FROM ruby:2.7.1
+
+# Use a directory called /code in which to store
+# this application's files. (The directory name
+# is arbitrary and could have been anything.)
+WORKDIR /code
+
+# Copy all the application's files into the /code
+# directory.
+COPY . /code
+
+# Run bundle install to install the Ruby dependencies.
 RUN bundle install
 
-# Add a script to be executed every time the container starts.
-COPY entrypoint.sh /usr/bin/
-RUN chmod +x /usr/bin/entrypoint.sh
-ENTRYPOINT ["entrypoint.sh"]
-EXPOSE 3000
+# Install Yarn.
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+RUN apt-get update && apt-get install -y yarn
 
-# Configure the main process to run when running the image
+# Run yarn install to install JavaScript dependencies.
+RUN yarn install --check-files
+
+# Set "rails server -b 0.0.0.0" as the command to
+# run when this container starts.
 CMD ["rails", "server", "-b", "0.0.0.0"]
