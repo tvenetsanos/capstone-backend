@@ -4,4 +4,6 @@ Rails.application.routes.draw do
   post '/dog/signup', to: "sessions#signup"
   post '/dog/signin', to: "sessions#signin"
   post '/dog/signout', to: "sessions#logout"
+  post '/dog/login', to: "sessions#login"
+  get '/dogs', to: "sessions#dogs"
 end

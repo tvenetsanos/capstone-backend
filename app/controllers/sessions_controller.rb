@@ -1,5 +1,7 @@
+require 'pry'
 class SessionsController < ApplicationController
   def get_session
+    binding.pry
     if session[:dog_id]
       head 200
     else
@@ -8,8 +10,8 @@ class SessionsController < ApplicationController
   end 
 
   def signup
-    @dog = Dog.create(params.permit(:dog_name, :email,      
-    :password_digest))
+    @dog = Dog.create(params.except(:session).permit(:dog_name, :email,      
+    :password_digest, :address_one, :address_two, :city, :zip_code, :state))
     session[:dog_id] = @dog.id
     render json: @dog
   end
@@ -28,5 +30,10 @@ class SessionsController < ApplicationController
   def logout
     session[:dog_id] = nil
     head 200
+  end
+
+  def dogs
+    @dogs = Dog.all
+    render json: { dogs: @dogs }
   end
 end

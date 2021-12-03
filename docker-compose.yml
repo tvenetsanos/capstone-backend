@@ -47,11 +47,11 @@ services:
       - .:/code:cached
 
     # The command to be run when we run "docker-compose up".
-    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 4000 -b '0.0.0.0'"
 
     # Expose port 3000.
     ports:
-      - "3000:3000"
+      - "4000:4000"
 
     # Specify that this container depends on the other
     # container which we've called "database".
