@@ -9,6 +9,8 @@ class AddDogs < ActiveRecord::Migration[6.0]
       t.string :zip_code
       t.string :state
       t.string :email
+      t.float :lat
+      t.float :lng
 
       t.timestamps
     end

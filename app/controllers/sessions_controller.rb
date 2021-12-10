@@ -1,9 +1,9 @@
 require 'pry'
 class SessionsController < ApplicationController
-  def get_session
-    binding.pry
+  def get_dog
+    puts session
     if session[:dog_id]
-      head 200
+      render json: { dog: Dog.find_by(id: session[:dog_id]) }
     else
       head 404
     end
@@ -11,7 +11,7 @@ class SessionsController < ApplicationController
 
   def signup
     @dog = Dog.create(params.except(:session).permit(:dog_name, :email,      
-    :password_digest, :address_one, :address_two, :city, :zip_code, :state))
+    :password_digest, :address_one, :address_two, :city, :zip_code, :state, :lat, :lng))
     session[:dog_id] = @dog.id
     render json: @dog
   end
@@ -36,4 +36,5 @@ class SessionsController < ApplicationController
     @dogs = Dog.all
     render json: { dogs: @dogs }
   end
+
 end
