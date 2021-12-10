@@ -33,7 +33,8 @@ class SessionsController < ApplicationController
   end
 
   def dogs
-    @dogs = Dog.all
+    puts session[:dog_id]
+    @dogs = Dog.where.not(id: session[:dog_id])
     render json: { dogs: @dogs }
   end
 

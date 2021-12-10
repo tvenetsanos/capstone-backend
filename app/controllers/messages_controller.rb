@@ -6,7 +6,7 @@ class MessagesController < ApplicationController
   end
 
   def create
-    params[:dog_id] = 2
+    params[:dog_id] = session[:dog_id]
     @message = Message.create(params.permit(:dog_to, :dog_id, :message))
     render json: @message
   end
