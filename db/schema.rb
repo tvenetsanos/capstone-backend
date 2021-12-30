@@ -10,13 +10,34 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_09_013138) do
+ActiveRecord::Schema.define(version: 2021_12_30_203640) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "conversations", force: :cascade do |t|
+    t.integer "first_user"
+    t.integer "second_user"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "dogs", force: :cascade do |t|
     t.string "dog_name"
+    t.string "breed"
+    t.integer "age"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.string "message"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "name"
     t.string "password_digest"
     t.string "address_one"
     t.string "address_two"
@@ -26,14 +47,6 @@ ActiveRecord::Schema.define(version: 2021_12_09_013138) do
     t.string "email"
     t.float "lat"
     t.float "lng"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "messages", force: :cascade do |t|
-    t.integer "dog_to"
-    t.integer "dog_id"
-    t.string "message"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
