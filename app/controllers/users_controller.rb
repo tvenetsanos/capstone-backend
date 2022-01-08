@@ -1,29 +1,42 @@
 class UsersController < ApplicationController
   def get_user
-    if session[:user_id]
-      render json: { user: User.find_by(id: session[:user_id]) }
+    if isLoggedIn?
+      if session[:user_id]
+        render json: { user: User.find_by(id: session[:user_id]) }
+      else
+        head 404
+      end
     else
-      head 404
+      head 403
     end
   end 
 
-  def create
-    @user = User.create(params)
-    render json: @user
-  end
-
   def update
-    @user = User.find_by(id: session[:user_id]).update(params)
-    render json: @user
+    if isLoggedIn?
+      @user = User.find_by(id: session[:user_id]).update(params.except(:user).permit(:name, :email,      
+      :password_digest, :address_one, :address_two, :city, :zip_code, :state, :lat, :lng))
+      render json: @user
+    else
+      head 403
+    end
   end
 
   def delete
-    User.find_by(id: session[:user_id]).destroy
-    head 200
+    if isLoggedIn?
+      User.find_by(id: session[:user_id]).destroy
+      reset_session
+      head 200
+    else
+      head 403
+    end
   end
 
   def users
-    @users = Dog.where.not(id: session[:user_id])
-    render json: { users: @users }
+    if isLoggedIn?
+      @users = User.where.not(id: session[:user_id])
+      render json: { users: @users }
+    else 
+      head 403
+    end
   end
 end

@@ -1,3 +1,5 @@
 class Conversation < ActiveRecord::Base
-  has_many :user
+  belongs_to :first_user, foreign_key: :first_user_id, class_name: 'User'
+  belongs_to :second_user, foreign_key: :second_user_id, class_name: 'User'
+  has_many :messages, dependent: :destroy
 end

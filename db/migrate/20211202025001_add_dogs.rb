@@ -4,6 +4,7 @@ class AddDogs < ActiveRecord::Migration[6.0]
       t.string :dog_name
       t.string :breed
       t.integer :age
+      t.integer :user_id
 
       t.timestamps
     end

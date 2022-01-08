@@ -1,7 +1,6 @@
 Rails.application.routes.draw do
   # User Routes
   get '/user', to: "users#get_user"
-  post '/user', to: "users#create"
   put '/user/update', to: "users#update"
   delete '/user', to: "users#delete"
   get '/users', to: "users#users"
@@ -11,7 +10,7 @@ Rails.application.routes.draw do
 
   # Conversation Routes
   get '/conversations', to: "conversations#get_conversations"
-  get '/conversation', to: "conversations#get_conversation"
+  get '/conversation/:id', to: "conversations#get_conversation"
   post '/conversation', to: "conversations#create"
   delete '/conversation', to: "conversations#delete"
 

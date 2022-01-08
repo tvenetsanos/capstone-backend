@@ -16,8 +16,8 @@ ActiveRecord::Schema.define(version: 2021_12_30_203640) do
   enable_extension "plpgsql"
 
   create_table "conversations", force: :cascade do |t|
-    t.integer "first_user"
-    t.integer "second_user"
+    t.integer "first_user_id"
+    t.integer "second_user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -26,12 +26,15 @@ ActiveRecord::Schema.define(version: 2021_12_30_203640) do
     t.string "dog_name"
     t.string "breed"
     t.integer "age"
+    t.integer "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "messages", force: :cascade do |t|
     t.string "message"
+    t.string "user_id"
+    t.string "conversation_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
