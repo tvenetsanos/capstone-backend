@@ -34,7 +34,8 @@ class UsersController < ApplicationController
   def users
     if isLoggedIn?
       @users = User.where.not(id: session[:user_id])
-      render json: { users: @users }
+      @users_dogs = @users.map{|user| { user: user, dog: Dog.find_by(user_id: user.id) }}
+      render json: { users: @users_dogs }
     else 
       head 403
     end

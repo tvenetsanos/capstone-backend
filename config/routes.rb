@@ -7,6 +7,7 @@ Rails.application.routes.draw do
 
   # Dog Routes
   post '/dog', to: "dogs#add_dog"
+  get '/dog', to: "dogs#get_dog"
 
   # Conversation Routes
   get '/conversations', to: "conversations#get_conversations"
