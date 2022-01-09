@@ -5,15 +5,21 @@ class ConversationsController < ApplicationController
   end
 
   def get_conversation
-    puts params[:id]
     @conversation = Conversation.find_by(id: params[:id])
     @messages = Message.where(conversation_id: @conversation.id)
     render json: { messages: @messages.sort{|a,b| a.created_at <=> b.created_at } }
   end
   
-  def create
-    @conversation = Conversation.create(params.permit(:first_user_id, :second_user_id))
-    render json: { conversation: @conversation }
+  def get_or_create
+    if isLoggedIn?
+      @conversation = Conversation.find_by(first_user_id: params[:first_user_id], second_user_id: params[:second_user_id]) || Conversation.find_by(first_user_id: params[:second_user_id], second_user_id: params[:first_user_id])
+      if !@conversation
+        @conversation = Conversation.create(params.except(:conversation).permit(:first_user_id, :second_user_id))
+      end
+      render json: { conversation: @conversation }
+    else
+      head 403
+    end
   end
 
   def delete

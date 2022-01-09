@@ -1,4 +1,12 @@
 class SessionsController < ApplicationController
+  def check_session
+    if isLoggedIn?
+      head 200
+    else
+      head 404
+    end
+  end
+  
   def signup
     @user = User.create(params.except(:session).permit(:name, :email,      
     :password_digest, :address_one, :address_two, :city, :zip_code, :state, :lat, :lng))

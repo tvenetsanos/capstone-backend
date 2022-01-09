@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   # Conversation Routes
   get '/conversations', to: "conversations#get_conversations"
   get '/conversation/:id', to: "conversations#get_conversation"
-  post '/conversation', to: "conversations#create"
+  post '/conversation', to: "conversations#get_or_create"
   delete '/conversation', to: "conversations#delete"
 
   # Message Routes
@@ -22,4 +22,5 @@ Rails.application.routes.draw do
   post '/signup', to: "sessions#signup"
   post '/login', to: "sessions#login"
   post '/logout', to: "sessions#logout"
+  get '/session', to: "sessions#check_session"
 end

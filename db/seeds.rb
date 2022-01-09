@@ -5,72 +5,108 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
-Dog.destroy_all
+User.destroy_all
 
-@daisy = Dog.create({
-  dog_name: "Daisy",
-  password_digest: "Daisy123",
+@tyler = User.create({
+  name: "Tyler Venetsanos",
+  password_digest: "tyler123",
   address_one: "139 Petunia Terrace SE",
   city: "Leesburg",
   zip_code: "20175",
   state: "Virginia",
-  email: "Daisy@gmail.com",
+  email: "tyler@gmail.com",
   lat: "39.092750",
   lng: "-77.555280"
 })
-@hamilton = Dog.create({
-  dog_name: "Hamilton",
-  password_digest: "Hamilton123",
-  address_one: "21179 Ashburn Heights Dr.",
-  city: "Ashburn",
-  zip_code: "20148",
-  state: "Virginia",
-  email: "Hamilton@gmail.com",
-  lat: "39.031080",
-  lng: "-77.527580"
-})
-@biggie = Dog.create({
-  dog_name: "Biggie",
-  password_digest: "Biggie123",
+
+@kosta = User.create({
+  name: "Kosta Venetsanos",
+  password_digest: "kosta123",
   address_one: "1605 Village Market Blvd SE",
   address_two: "J303",
   city: "Leesburg",
   zip_code: "20175-5108",
   state: "Virginia",
-  email: "Biggie@gmail.com",
+  email: "kosta@gmail.com",
   lat: "39.089130",
   lng: "-77.524100"
+})
+
+@devin = User.create({
+  name: "Devin Venetsanos",
+  password_digest: "devin123",
+  address_one: "21179 Ashburn Heights",
+  city: "Ashburn",
+  zip_code: "20148",
+  state: "Virginia",
+  email: "devin@gmail.com",
+  lat: "39.089130",
+  lng: "-77.524100"
+})
+
+Dog.destroy_all
+
+@daisy = Dog.create({
+  dog_name: "Daisy",
+  breed: "Yellow Lab",
+  age: 14,
+  user_id: @tyler.id
+})
+
+@hamilton = Dog.create({
+  dog_name: "Hamilton",
+  breed: "Golden Retriever",
+  age: 1,
+  user_id: @devin.id
+})
+
+@biggie = Dog.create({
+  dog_name: "Biggie",
+  breed: "Yorkie",
+  age: 13,
+  user_id: @kosta.id
+})
+
+Conversation.destroy_all
+@conversation1 = Conversation.create({
+  first_user_id: @tyler.id,
+  second_user_id: @kosta.id
+})
+
+@conversation2 = Conversation.create({
+  first_user_id: @kosta.id,
+  second_user_id: @devin.id
 })
 
 Message.destroy_all
 
 Message.create!([{
-  dog_to: @daisy.id,
-  dog_id: @hamilton.id,
-  message: "Hi Daisy! Hope we can play some day!"
+  user_id: @devin.id,
+  conversation_id: @conversation1.id,
+  message: "Hi Tyler! I would love to get the dogs together to play!"
 },
 {
-  dog_to: @hamilton.id,
-  dog_id: @daisy.id,
-  message: "Hi Hamilton! I would love to play this weekend."
+  user_id: @tyler.id,
+  conversation_id: @conversation1.id,
+  message: "Hi Devin. Lets schedule something for this weekend!"
 },
 {
-  dog_to: @hamilton.id,
-  dog_id: @daisy.id,
-  message: "Let me talk to my parents and see if they will drive me!"
+  user_id: @devin.id,
+  conversation_id: @conversation1.id,
+  message: "That would be a lot of fun!"
 },
 {
-  dog_to: @biggie.id,
-  dog_id: @daisy.id,
-  message: "Hi Biggie! Do you remember we played together at the park."
+  user_id: @tyler.id,
+  conversation_id: @conversation2.id,
+  message: "Hi Kosta! Do you remember our dogs played together at the park."
 },
 {
-  dog_to: @daisy.id,
-  dog_id: @biggie.id,
-  message: "Yes I do Daisy."
+  user_id: @kosta.id,
+  conversation_id: @conversation2.id,
+  message: "Yes I do Tyler."
 },
 {
-  dog_to: @biggie.id,
-  dog_id: @daisy.id,
+  user_id: @tyler.id,
+  conversation_id: @conversation2.id,
   message: "Sweet!"
 }])
