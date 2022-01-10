@@ -1,7 +1,8 @@
 class ConversationsController < ApplicationController
   def get_conversations
-    @conversations = Conversation.where(first_user_id: session[:user_id]) + Conversation.where(second_user_id: session[:user_id])
-    render json: { conversations: @conversations }
+    @first_convos = Conversation.where(first_user_id: session[:user_id]).map{|convo| { conversation: convo, topMessage: Message.where(conversation_id: convo.id).sort{|a,b| b.created_at <=> a.created_at }.first(), userTo: User.find_by(id: convo.second_user_id)  }}
+    @second_convos = Conversation.where(second_user_id: session[:user_id]).map{|convo| { conversation: convo, topMessage: Message.where(conversation_id: convo.id).sort{|a,b| b.created_at <=> a.created_at }.first(), userTo: User.find_by(id: convo.first_user_id)  }}
+    render json: { conversations: @first_convos + @second_convos }
   end
 
   def get_conversation

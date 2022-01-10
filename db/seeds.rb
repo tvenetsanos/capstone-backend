@@ -70,12 +70,12 @@ Dog.destroy_all
 Conversation.destroy_all
 @conversation1 = Conversation.create({
   first_user_id: @tyler.id,
-  second_user_id: @kosta.id
+  second_user_id: @devin.id
 })
 
 @conversation2 = Conversation.create({
-  first_user_id: @kosta.id,
-  second_user_id: @devin.id
+  first_user_id: @tyler.id,
+  second_user_id: @kosta.id
 })
 
 Message.destroy_all

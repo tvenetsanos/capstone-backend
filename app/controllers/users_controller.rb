@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   def get_user
     if isLoggedIn?
       if session[:user_id]
-        render json: { user: User.find_by(id: session[:user_id]) }
+        render json: { user: User.find_by(id: session[:user_id]), dog: Dog.find_by(user_id: session[:user_id]) } 
       else
         head 404
       end
