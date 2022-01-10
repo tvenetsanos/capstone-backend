@@ -24,7 +24,7 @@ class ConversationsController < ApplicationController
   end
 
   def delete
-    Conversation.find_by(id: User.find_by(id: session[:user_id]).conversation_id).destroy
+    Conversation.find_by(id: params[:conversation_id]).destroy
     head 200
   end
 end

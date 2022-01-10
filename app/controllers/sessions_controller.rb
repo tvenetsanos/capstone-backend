@@ -6,10 +6,11 @@ class SessionsController < ApplicationController
       head 404
     end
   end
-  
+
   def signup
     @user = User.create(params.except(:session).permit(:name, :email,      
     :password_digest, :address_one, :address_two, :city, :zip_code, :state, :lat, :lng))
+    cookies[:user_id] = @user.id
     session[:user_id] = @user.id
     render json: @user
   end

@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   get '/conversations', to: "conversations#get_conversations"
   get '/conversation/:id', to: "conversations#get_conversation"
   post '/conversation', to: "conversations#get_or_create"
-  delete '/conversation', to: "conversations#delete"
+  delete '/conversation/:conversation_id', to: "conversations#delete"
 
   # Message Routes
   post '/message', to: "messages#create"

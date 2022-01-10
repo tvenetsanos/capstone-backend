@@ -23,6 +23,9 @@ class UsersController < ApplicationController
 
   def delete
     if isLoggedIn?
+      Dog.find_by(user_id: session[:user_id]).destroy
+      Conversation.where(first_user_id: session[:user_id]).destroy_all
+      Conversation.where(second_user_id: session[:user_id]).destroy_all
       User.find_by(id: session[:user_id]).destroy
       reset_session
       head 200
