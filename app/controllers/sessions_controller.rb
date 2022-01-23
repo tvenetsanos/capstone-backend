@@ -7,14 +7,6 @@ class SessionsController < ApplicationController
     end
   end
 
-  def signup
-    @user = User.create(params.except(:session).permit(:name, :email,      
-    :password_digest, :address_one, :address_two, :city, :zip_code, :state, :lat, :lng))
-    cookies[:user_id] = @user.id
-    session[:user_id] = @user.id
-    render json: @user
-  end
-
   def login
     @user = User.find_by(email: params[:email])
     if @user && @user.password_digest == params[:password_digest]

@@ -7,14 +7,14 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 User.destroy_all
 
-@tyler = User.create({
-  name: "Tyler Venetsanos",
-  password_digest: "tyler123",
+@kristen = User.create({
+  name: "Kristen Venetsanos",
+  password_digest: "kristen123",
   address_one: "139 Petunia Terrace SE",
   city: "Leesburg",
   zip_code: "20175",
   state: "Virginia",
-  email: "tyler@gmail.com",
+  email: "kristen@gmail.com",
   lat: "39.092750",
   lng: "-77.555280"
 })
@@ -50,7 +50,7 @@ Dog.destroy_all
   dog_name: "Daisy",
   breed: "Yellow Lab",
   age: 14,
-  user_id: @tyler.id
+  user_id: @kristen.id
 })
 
 @hamilton = Dog.create({
@@ -69,12 +69,12 @@ Dog.destroy_all
 
 Conversation.destroy_all
 @conversation1 = Conversation.create({
-  first_user_id: @tyler.id,
+  first_user_id: @kristen.id,
   second_user_id: @devin.id
 })
 
 @conversation2 = Conversation.create({
-  first_user_id: @tyler.id,
+  first_user_id: @kristen.id,
   second_user_id: @kosta.id
 })
 
@@ -86,7 +86,7 @@ Message.create!([{
   message: "Hi Tyler! I would love to get the dogs together to play!"
 },
 {
-  user_id: @tyler.id,
+  user_id: @kristen.id,
   conversation_id: @conversation1.id,
   message: "Hi Devin. Lets schedule something for this weekend!"
 },
@@ -96,7 +96,7 @@ Message.create!([{
   message: "That would be a lot of fun!"
 },
 {
-  user_id: @tyler.id,
+  user_id: @kristen.id,
   conversation_id: @conversation2.id,
   message: "Hi Kosta! Do you remember our dogs played together at the park."
 },
@@ -106,7 +106,7 @@ Message.create!([{
   message: "Yes I do Tyler."
 },
 {
-  user_id: @tyler.id,
+  user_id: @kristen.id,
   conversation_id: @conversation2.id,
   message: "Sweet!"
 }])

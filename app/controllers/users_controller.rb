@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  def get_user
+  def show
     if isLoggedIn?
       if session[:user_id]
         render json: { user: User.find_by(id: session[:user_id]), dog: Dog.find_by(user_id: session[:user_id]) } 
@@ -11,6 +11,14 @@ class UsersController < ApplicationController
     end
   end 
 
+  def create
+    @user = User.create(params.except(:session).permit(:name, :email,      
+    :password_digest, :address_one, :address_two, :city, :zip_code, :state, :lat, :lng))
+    cookies[:user_id] = @user.id
+    session[:user_id] = @user.id
+    render json: @user
+  end
+
   def update
     if isLoggedIn?
       @user = User.find_by(id: session[:user_id]).update(params.except(:user).permit(:name, :email,      
@@ -21,7 +29,7 @@ class UsersController < ApplicationController
     end
   end
 
-  def delete
+  def destroy
     if isLoggedIn?
       Dog.find_by(user_id: session[:user_id]).destroy
       Conversation.where(first_user_id: session[:user_id]).destroy_all
@@ -34,7 +42,7 @@ class UsersController < ApplicationController
     end
   end
 
-  def users
+  def index
     if isLoggedIn?
       @users = User.where.not(id: session[:user_id])
       @users_dogs = @users.map{|user| { user: user, dog: Dog.find_by(user_id: user.id) }}
