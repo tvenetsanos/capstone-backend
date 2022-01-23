@@ -2,7 +2,8 @@ class UsersController < ApplicationController
   def show
     if isLoggedIn?
       if session[:user_id]
-        render json: { user: User.find_by(id: session[:user_id]), dog: Dog.find_by(user_id: session[:user_id]) } 
+        @user = User.find_by(id: session[:user_id])
+        render json: { user: @user, dog: @user.dog } 
       else
         head 404
       end
@@ -31,7 +32,6 @@ class UsersController < ApplicationController
 
   def destroy
     if isLoggedIn?
-      Dog.find_by(user_id: session[:user_id]).destroy
       Conversation.where(first_user_id: session[:user_id]).destroy_all
       Conversation.where(second_user_id: session[:user_id]).destroy_all
       User.find_by(id: session[:user_id]).destroy
@@ -45,7 +45,7 @@ class UsersController < ApplicationController
   def index
     if isLoggedIn?
       @users = User.where.not(id: session[:user_id])
-      @users_dogs = @users.map{|user| { user: user, dog: Dog.find_by(user_id: user.id) }}
+      @users_dogs = @users.map{|user| { user: user, dog: user.dog }}
       render json: { users: @users_dogs }
     else 
       head 403

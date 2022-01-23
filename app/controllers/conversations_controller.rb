@@ -1,14 +1,13 @@
 class ConversationsController < ApplicationController
   def index
-    @first_convos = Conversation.where(first_user_id: session[:user_id]).map{|convo| { conversation: convo, topMessage: Message.where(conversation_id: convo.id).sort{|a,b| b.created_at <=> a.created_at }.first(), userTo: User.find_by(id: convo.second_user_id)  }}
-    @second_convos = Conversation.where(second_user_id: session[:user_id]).map{|convo| { conversation: convo, topMessage: Message.where(conversation_id: convo.id).sort{|a,b| b.created_at <=> a.created_at }.first(), userTo: User.find_by(id: convo.first_user_id)  }}
+    @first_convos = Conversation.where(first_user_id: session[:user_id]).map{|convo| { conversation: convo, topMessage: convo.messages.sort{|a,b| b.created_at <=> a.created_at }.first(), userTo: convo.second_user }}
+    @second_convos = Conversation.where(second_user_id: session[:user_id]).map{|convo| { conversation: convo, topMessage: convo.messages.sort{|a,b| b.created_at <=> a.created_at }.first(), userTo: convo.first_user }}
     render json: { conversations: @first_convos + @second_convos }
   end
 
   def show
     @conversation = Conversation.find_by(id: params[:id])
-    @messages = Message.where(conversation_id: @conversation.id)
-    render json: { messages: @messages.sort{|a,b| a.created_at <=> b.created_at } }
+    render json: { messages: @conversation.messages.sort{|a,b| a.created_at <=> b.created_at } }
   end
   
   def create
